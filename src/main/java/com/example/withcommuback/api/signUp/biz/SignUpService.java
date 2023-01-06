@@ -2,6 +2,7 @@ package com.example.withcommuback.api.signUp.biz;
 
 import com.example.withcommuback.api.signUp.vo.UserVO;
 import com.example.withcommuback.rep.user.UserRepository;
+import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -12,8 +13,9 @@ import org.springframework.stereotype.Service;
 public class SignUpService {
 
     private final UserRepository userRepository;
+
+    @Transactional
     public UserVO create(UserVO userVO) {
-        //서비스단에서 다 처리함
         return userRepository.save(userVO);
     }
 }

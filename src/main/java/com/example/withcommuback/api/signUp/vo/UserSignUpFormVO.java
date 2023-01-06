@@ -9,18 +9,21 @@ import lombok.Data;
 public class UserSignUpFormVO {
 
     @NotNull
-    private String name;
-
-    @NotNull
     @Email
-    private String email;
+    private String userEmail;
 
     @NotNull
-    private String password1;
+    private String userPwd;
 
     @NotNull
-    private String password2;
+    private String userPwdCheck;
 
     @NotNull
-    private String phoneNumber;
+    private String userName;
+
+    @NotNull
+    private String userPhone;
+
+    @NotNull
+    private String userNick;
 }
