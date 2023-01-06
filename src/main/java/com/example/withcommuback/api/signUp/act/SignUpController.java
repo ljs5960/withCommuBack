@@ -5,10 +5,15 @@ import com.example.withcommuback.api.signUp.vo.UserSignUpFormVO;
 import com.example.withcommuback.api.signUp.vo.UserVO;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+
+import com.example.withcommuback.utils.RequestUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.net.Inet4Address;
+import java.net.UnknownHostException;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -20,7 +25,7 @@ public class SignUpController {
 
     @PostMapping("/ins")
     public UserVO signUp(@Valid @RequestBody UserSignUpFormVO userSignUpFormVO,
-        BindingResult bindingResult, HttpServletRequest request) {
+        BindingResult bindingResult) {
 
         /*
         TODO 반환값 설정하기
@@ -28,7 +33,6 @@ public class SignUpController {
         if (bindingResult.hasErrors()) {
             return null;
         }
-
         /*
         비밀번호 일치 여부
         TODO 반환값 설정하기
@@ -37,18 +41,6 @@ public class SignUpController {
             return null;
         }
 
-        UserVO userVO = UserVO.builder()
-            .email(userSignUpFormVO.getUserEmail())
-            .password(userSignUpFormVO.getUserPwd())
-            .name(userSignUpFormVO.getUserName())
-            .phone(userSignUpFormVO.getUserPhone())
-            .nickName(userSignUpFormVO.getUserNick())
-            .ipAddress(request.getRemoteAddr())
-            .isBlocked("N")
-            .build();
-
-        log.info("info: {}", userVO.getEmail());
-
-        return signUpService.create(userVO);
+        return signUpService.create(userSignUpFormVO);
     }
 }
