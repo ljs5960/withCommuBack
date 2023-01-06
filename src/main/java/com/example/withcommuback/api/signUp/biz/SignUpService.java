@@ -21,19 +21,40 @@ public class SignUpService {
     @Transactional
     public UserVO create(UserSignUpFormVO userSignUpFormVO) {
         UserVO userVO = null;
+
+        /*
+        TODO 아이디 닉네임 중복 처리
+         */
+        if (isDuplicatedEmail(userSignUpFormVO.getUserEmail())) {
+            return null;
+        }
+
+        if (isDuplicatedNickName(userSignUpFormVO.getUserNick())) {
+            return null;
+        }
+
         try {
             userVO = UserVO.builder()
-                    .email(userSignUpFormVO.getUserEmail())
-                    .password(userSignUpFormVO.getUserPwd())
-                    .name(userSignUpFormVO.getUserName())
-                    .phone(userSignUpFormVO.getUserPhone())
-                    .nickName(userSignUpFormVO.getUserNick())
-                    .ipAddress(Inet4Address.getLocalHost().getHostAddress())
-                    .isBlocked("N")
-                    .build();
+                .email(userSignUpFormVO.getUserEmail())
+                .password(userSignUpFormVO.getUserPwd())
+                .name(userSignUpFormVO.getUserName())
+                .phone(userSignUpFormVO.getUserPhone())
+                .nickName(userSignUpFormVO.getUserNick())
+                .ipAddress(Inet4Address.getLocalHost().getHostAddress())
+                .isBlocked("N")
+                .build();
         } catch (UnknownHostException e) {
             throw new RuntimeException(e);
         }
+
         return userRepository.save(userVO);
+    }
+
+    public boolean isDuplicatedEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
+    public boolean isDuplicatedNickName(String nickName) {
+        return userRepository.existsByNickName(nickName);
     }
 }
