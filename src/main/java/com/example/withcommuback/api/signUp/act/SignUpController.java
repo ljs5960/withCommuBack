@@ -3,6 +3,7 @@ package com.example.withcommuback.api.signUp.act;
 import com.example.withcommuback.api.signUp.biz.SignUpService;
 import com.example.withcommuback.api.signUp.vo.UserSignUpFormVO;
 import com.example.withcommuback.api.signUp.vo.UserVO;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +20,7 @@ public class SignUpController {
 
     @PostMapping("/ins")
     public UserVO signUp(@Valid @RequestBody UserSignUpFormVO userSignUpFormVO,
-        BindingResult bindingResult) {
+        BindingResult bindingResult, HttpServletRequest request) {
 
         /*
         TODO 반환값 설정하기
@@ -32,7 +33,7 @@ public class SignUpController {
         비밀번호 일치 여부
         TODO 반환값 설정하기
         */
-        if (userSignUpFormVO.getUserPwd().equals(userSignUpFormVO.getUserPwdCheck())) {
+        if (!userSignUpFormVO.getUserPwd().equals(userSignUpFormVO.getUserPwdCheck())) {
             return null;
         }
 
@@ -42,6 +43,8 @@ public class SignUpController {
             .name(userSignUpFormVO.getUserName())
             .phone(userSignUpFormVO.getUserPhone())
             .nickName(userSignUpFormVO.getUserNick())
+            .ipAddress(request.getRemoteAddr())
+            .isBlocked("N")
             .build();
 
         log.info("info: {}", userVO.getEmail());
