@@ -1,11 +1,12 @@
-package com.example.withcommuback.api.signUp.biz;
+package com.example.withcommuback.api.signUp.vo;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
-import lombok.Getter;
 
-@Getter
-public class UserSignUpForm {
+import lombok.Data;
+
+@Data
+public class UserSignUpFormVO {
 
     @NotNull
     private String name;
