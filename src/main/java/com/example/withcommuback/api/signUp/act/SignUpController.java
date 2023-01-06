@@ -1,7 +1,10 @@
 package com.example.withcommuback.api.signUp.act;
 
-import com.example.withcommuback.api.signUp.UserSignUpForm;
 import com.example.withcommuback.api.signUp.biz.SignUpService;
+import com.example.withcommuback.api.signUp.biz.UserSignUpForm;
+import com.example.withcommuback.api.signUp.vo.UserVO;
+import java.io.IOException;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/signup")
+@RequestMapping("/api/signUp")
 public class SignUpController {
 
     private final SignUpService signUpService;
@@ -19,27 +22,26 @@ public class SignUpController {
         this.signUpService = signUpService;
     }
 
-    /*
-    TODO: 회원가입 폼 return 완성하기
-     */
     @GetMapping
     public void signUp(UserSignUpForm userSignUpForm) {
     }
 
-    /*
-    TODO: 회원가입 제출 완료짓기
-     */
-    @PostMapping
-    public void signUp(@Valid UserSignUpForm userSignUpForm, BindingResult bindingResult) {
-//        if (bindingResult.hasErrors()) {
-//            return "redirect:/signup";
-//        }
-//
-//        if (userSignUpForm.getUserPwd1().equals(userSignUpForm.getUserPwd2())) {
-//            return "redirect:/signup";
-//        }
+    @PostMapping("/ins")
+    public UserVO signUp(@Valid UserSignUpForm userSignUpForm, BindingResult bindingResult,
+        HttpServletResponse response) throws IOException {
 
-//        signUpService.create(userSignUpForm);
+        if ((bindingResult.hasErrors()) || (userSignUpForm.getPassword1()
+            .equals(userSignUpForm.getPassword2()))) {
+            response.sendRedirect("/api/signup");
+
+            return null;
+        }
+
+        return UserVO.builder()
+            .name(userSignUpForm.getName())
+            .email(userSignUpForm.getEmail())
+            .password(userSignUpForm.getPassword1())
+            .phoneNumber(userSignUpForm.getPhoneNumber())
+            .build();
     }
-
 }

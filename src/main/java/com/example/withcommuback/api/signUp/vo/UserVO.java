@@ -31,13 +31,13 @@ public class UserVO {
     private String email;
 
     @Column(name = "user_pwd", nullable = false, length = 45)
-    private String userPwd;
+    private String password;
 
     @Column(name = "user_phone", nullable = false, length = 45)
-    private String phone;
+    private String phoneNumber;
 
     @Column(name = "user_ip", nullable = false, length = 45)
-    private String ip;
+    private String ipAddress;
 
     @Column(name = "user_block", nullable = false, length = 1)
     private String isBlocked;

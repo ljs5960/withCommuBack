@@ -10,4 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping(value = {"/api/login"})
 public class LoginController {
+    public void test(){
+        log.error("test : {}","test");
+        log.error("test : {}","test");
+    }
 }
